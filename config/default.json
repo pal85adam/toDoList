@@ -1,0 +1,5 @@
+{
+    "mongoURI":"mongodb+srv://root123:root@todocluster-3kozc.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret":"lovelyDay",
+    "jwtTimeout":3600000
+}
