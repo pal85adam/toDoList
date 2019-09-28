@@ -38,17 +38,40 @@ router.post(
   }
 );
 
-const getTasks = async (request, response) => {
+//@route GET api/tasks/:id
+router.get("/:id",auth, async (request, response) => {
+    try {
+      const selectedTask = await Tasks.findOne({
+        user: request.userid,
+        _id: request.params.id
+      });
+      console.log(selectedTask, request.userid, request.params);
+      if (!selectedTask) {
+        return response.status(404).json({ msg: "Task is not foud!" });
+      }
+
+      return response.json(selectedTask);
+    } catch (err) {
+      console.log(err.message);
+      if (err.kind === "ObjectId")
+        return response.status(404).json({ msg: "Task is not foud!" });
+      return response.status(500).send("Server error!");
+    }
+  });
+
+//@route GET api/tasks/?year=#&month=#&day=#
+router.get("/", auth, async (request, response) => {
   try {
-    console.log(request.params, request.userid);
-    const year = request.params.year;
-    const month = request.params.month;
-    const day = request.params.day;
-    let queryTasks = {
-      user: request.userid,
-      $expr: { $eq: [{ $year: "$date" }, parseInt(year)] }
-    };
-    console.log("year", queryTasks);
+    const year = request.query.year;
+    const month = request.query.month;
+    const day = request.query.day;
+    let queryTasks = {};
+    if (year) {
+      queryTasks = {
+        user: request.userid,
+        $expr: { $eq: [{ $year: "$date" }, parseInt(year)] }
+      };
+    }
 
     if (month) {
       queryTasks = {
@@ -59,7 +82,6 @@ const getTasks = async (request, response) => {
         ]
       };
     }
-    console.log("month", queryTasks);
 
     if (day) {
       queryTasks = {
@@ -71,45 +93,11 @@ const getTasks = async (request, response) => {
         ]
       };
     }
-    console.log("day", queryTasks);
+
     const selectedTasks = await Tasks.find(queryTasks);
     if (selectedTasks.length == 0)
       return response.json({ msg: "There are no tasks!" });
     return response.json(selectedTasks);
-  } catch (err) {
-    console.log(err.message);
-    response.status(500).send("Server error!");
-  }
-};
-
-//@route GET api/tasks/:year
-router.get("/:year", auth, async (request, response) => {
-  await getTasks(request, response);
-});
-
-//@route GET api/tasks/:year/:month
-router.get("/:year/:month", auth, async (request, response) => {
-  await getTasks(request, response);
-});
-
-//@route GET api/tasks/:year/:month/:day
-router.get("/:year/:month/:day", auth, async (request, response) => {
-  await getTasks(request, response);
-});
-
-//@route GET api/tasks/:id
-router.get("/:id", auth, async (request, response) => {
-  try {
-    const selectedTask = await Tasks.findOne({
-      user: request.userid,
-      _id: request.params.id
-    });
-
-    if (!selectedTask) {
-      return response.status(404).json({ msg: "Task is not foud!" });
-    }
-
-    return response.json(selectedTask);
   } catch (err) {
     console.log(err.message);
     response.status(500).send("Server error!");
