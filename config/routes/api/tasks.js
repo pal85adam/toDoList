@@ -39,25 +39,25 @@ router.post(
 );
 
 //@route GET api/tasks/:id
-router.get("/:id",auth, async (request, response) => {
-    try {
-      const selectedTask = await Tasks.findOne({
-        user: request.userid,
-        _id: request.params.id
-      });
-      console.log(selectedTask, request.userid, request.params);
-      if (!selectedTask) {
-        return response.status(404).json({ msg: "Task is not foud!" });
-      }
-
-      return response.json(selectedTask);
-    } catch (err) {
-      console.log(err.message);
-      if (err.kind === "ObjectId")
-        return response.status(404).json({ msg: "Task is not foud!" });
-      return response.status(500).send("Server error!");
+router.get("/:id", auth, async (request, response) => {
+  try {
+    const selectedTask = await Tasks.findOne({
+      user: request.userid,
+      _id: request.params.id
+    });
+    console.log(selectedTask, request.userid, request.params);
+    if (!selectedTask) {
+      return response.status(404).json({ msg: "Task is not foud!" });
     }
-  });
+
+    return response.json(selectedTask);
+  } catch (err) {
+    console.log(err.message);
+    if (err.kind === "ObjectId")
+      return response.status(404).json({ msg: "Task is not foud!" });
+    return response.status(500).send("Server error!");
+  }
+});
 
 //@route GET api/tasks/?year=#&month=#&day=#
 router.get("/", auth, async (request, response) => {
@@ -65,7 +65,9 @@ router.get("/", auth, async (request, response) => {
     const year = request.query.year;
     const month = request.query.month;
     const day = request.query.day;
-    let queryTasks = {};
+    let queryTasks = {
+      user: request.userid
+    };
     if (year) {
       queryTasks = {
         user: request.userid,
