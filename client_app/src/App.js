@@ -1,19 +1,27 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import NavComponent from "./components/layout/NavComponent";
+import DashComponent from "./components/layout/DashComponent";
+import TasksComponent from "./components/TasksComponent";
+import LoginComponent from "./components/auth/LoginComponent";
+import RegisterComponent from "./components/auth/RegisterComponent";
+import FrameComponent from "./components/layout/FrameComponent";
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <BrowserRouter>
+        <NavComponent />
+        <Route exact path="/" component={DashComponent} />
+        <Switch>
+          <FrameComponent>
+            <Route exact path="/register" component={RegisterComponent} />
+            <Route exact path="/login" component={LoginComponent} />
+            <Route exact path="/tasks" component={TasksComponent} />
+          </FrameComponent>
+        </Switch>
+      </BrowserRouter>
     );
   }
 }
