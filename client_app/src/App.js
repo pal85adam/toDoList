@@ -8,20 +8,25 @@ import LoginComponent from "./components/auth/LoginComponent";
 import RegisterComponent from "./components/auth/RegisterComponent";
 import FrameComponent from "./components/layout/FrameComponent";
 
+import Provider from "react-redux";
+import store from "./store";
+
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
-        <NavComponent />
-        <Route exact path="/" component={DashComponent} />
-        <Switch>
-          <FrameComponent>
-            <Route exact path="/register" component={RegisterComponent} />
-            <Route exact path="/login" component={LoginComponent} />
-            <Route exact path="/tasks" component={TasksComponent} />
-          </FrameComponent>
-        </Switch>
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <NavComponent />
+          <Route exact path="/" component={DashComponent} />
+          <Switch>
+
+              <Route exact path="/register" component={RegisterComponent} />
+              <Route exact path="/login" component={LoginComponent} />
+              <Route exact path="/tasks" component={TasksComponent} />
+
+          </Switch>
+        </BrowserRouter>
+      </Provider>
     );
   }
 }
