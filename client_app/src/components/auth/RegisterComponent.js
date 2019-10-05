@@ -1,7 +1,11 @@
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
+import { setAlert } from "../../actions/alertActions";
+import { registerUser } from "../../actions/registerActions";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-const RegisterComponent = () => {
+const RegisterComponent = ({ setAlert, registerUser }) => {
   const [registerFormData, setRegisterFormData] = useState({
     name: "",
     email: "",
@@ -20,10 +24,9 @@ const RegisterComponent = () => {
   const formSubmitHandler = e => {
     e.preventDefault();
     if (password === password2) {
-      console.log(registerFormData,"Form submitted ");
+      registerUser(name,email,password);
     } else {
-
-      console.log("Password and Confirm Password are not matched!");
+      setAlert("Password and Confirm Password are not matched!", "danger");
     }
   };
   return (
@@ -82,4 +85,12 @@ const RegisterComponent = () => {
   );
 };
 
-export default RegisterComponent;
+RegisterComponent.propType = {
+  setAlert: PropTypes.func.isRequired,
+  registerUser: PropTypes.func.isRequired
+};
+
+export default connect(
+  null,
+  { setAlert, registerUser }
+)(RegisterComponent);

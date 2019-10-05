@@ -1,7 +1,10 @@
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { setAlert } from "../../actions/alertActions";
 
-const LoginComponent = () => {
+const LoginComponent = ({ setAlert }) => {
   const [loginFormData, setLoginFormData] = useState({
     email: "",
     password: ""
@@ -15,11 +18,10 @@ const LoginComponent = () => {
       [e.target.name]: e.target.value
     });
   };
-  const formSubmitHandler = e => {
+  const formSubmitHandler = async e => {
     e.preventDefault();
-
-      console.log(loginFormData,"Form submitted ");
-
+    setAlert("Form submitted", "success");
+    console.log(loginFormData, "Form submitted ");
   };
   return (
     <Fragment>
@@ -53,4 +55,11 @@ const LoginComponent = () => {
   );
 };
 
-export default LoginComponent;
+LoginComponent.propType = {
+  setAlert: PropTypes.func.isRequired
+};
+
+export default connect(
+  null,
+  { setAlert }
+)(LoginComponent);

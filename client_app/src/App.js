@@ -8,8 +8,9 @@ import LoginComponent from "./components/auth/LoginComponent";
 import RegisterComponent from "./components/auth/RegisterComponent";
 import FrameComponent from "./components/layout/FrameComponent";
 
-import Provider from "react-redux";
+import { Provider } from "react-redux";
 import store from "./store";
+import AlertsComponent from "./components/layout/AlertsComponent";
 
 class App extends Component {
   render() {
@@ -18,13 +19,14 @@ class App extends Component {
         <BrowserRouter>
           <NavComponent />
           <Route exact path="/" component={DashComponent} />
-          <Switch>
-
+          <FrameComponent>
+            <AlertsComponent />
+            <Switch>
               <Route exact path="/register" component={RegisterComponent} />
               <Route exact path="/login" component={LoginComponent} />
               <Route exact path="/tasks" component={TasksComponent} />
-
-          </Switch>
+            </Switch>
+          </FrameComponent>
         </BrowserRouter>
       </Provider>
     );
