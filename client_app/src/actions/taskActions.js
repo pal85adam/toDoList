@@ -13,7 +13,10 @@ export const getTodayUserTasks = (year, month, day) => async dispatch => {
     const response = await axios.get(
       `/api/tasks/?year=${year}&month=${month}&day=${day}`
     );
-    // console.log(`/api/tasks/?year=${year}&month=${month}&day=${day}`,response.data);
+    console.log(
+      `/api/tasks/?year=${year}&month=${month}&day=${day}`,
+      response.data
+    );
     dispatch({
       type: TASKS_LOADED,
       payload: response.data
@@ -58,7 +61,6 @@ export const updateOrAddTask = (
       dispatch({ type: ONETASK_UPDATED });
       dispatch(setAlert("Your task was updated!", "success"));
     }
-    dispatch(getTodayUserTasks());
   } catch (err) {
     if (err.response.data.errors) {
       err.response.data.errors.forEach(error => {
@@ -68,21 +70,20 @@ export const updateOrAddTask = (
     dispatch(setAlert("Sorry, Something went wrong!", "danger"));
   }
 };
+
 export const deleteOneTask = id => async dispatch => {
   try {
     const response = await axios.delete(`api/tasks/${id}`);
-    dispatch({
-      type: ONETASK_DELETED
-    });
+    dispatch({ type: ONETASK_DELETED });
 
-    dispatch(setAlert(response.data.msg, "danger"));
-    dispatch(getTodayUserTasks());
+    dispatch(setAlert(response.data.msg, "success"));
   } catch (err) {
     if (err.response.data.errors) {
       err.response.data.errors.forEach(error => {
         dispatch(setAlert(error.msg, "danger"));
       });
     }
+    console.log(err.message);
     dispatch(setAlert("Sorry, Something went wrong!", "danger"));
   }
 };

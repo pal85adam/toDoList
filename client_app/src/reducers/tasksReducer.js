@@ -26,6 +26,7 @@ export default (state = initialState, action) => {
     case ONETASK_ADDED:
     case ONETASK_UPDATED:
     case ONETASK_DELETED:
+      return { ...state };
     default:
       return state;
   }
