@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { setAlert } from "../../actions/alertActions";
+import { loginUser } from "../../actions/loginActions";
 
-const LoginComponent = ({ setAlert }) => {
+const LoginComponent = ({ loginUser, isAuthed }) => {
   const [loginFormData, setLoginFormData] = useState({
     email: "",
     password: ""
@@ -20,9 +20,15 @@ const LoginComponent = ({ setAlert }) => {
   };
   const formSubmitHandler = async e => {
     e.preventDefault();
-    setAlert("Form submitted", "success");
-    console.log(loginFormData, "Form submitted ");
+    loginUser(email, password);
+    //setAlert("Form submitted", "success");
+    //console.log(loginFormData, "Form submitted ");
   };
+
+  if (isAuthed) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <Fragment>
       <h1 className="large text-primary">Sign In</h1>
@@ -56,10 +62,14 @@ const LoginComponent = ({ setAlert }) => {
 };
 
 LoginComponent.propType = {
-  setAlert: PropTypes.func.isRequired
+  setAlert: PropTypes.func.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  isAuthed: PropTypes.bool.isRequired
 };
 
+const mapStateToProps = state => ({ isAuthed: state.users.isAuthed });
+
 export default connect(
-  null,
-  { setAlert }
+  mapStateToProps,
+  { loginUser }
 )(LoginComponent);

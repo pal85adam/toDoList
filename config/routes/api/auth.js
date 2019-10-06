@@ -14,13 +14,10 @@ router.get("/", auth, async (request, response) => {
       "-password"
     );
     response.json({
-      msg: "Auth route,, " + request.userid,
       user: selectedUser
     });
   } catch (err) {
-    response.status(500).json({
-      msg: err
-    });
+    response.status(500).json({ errors: [{ msg: err }] });
   }
 });
 
@@ -50,7 +47,9 @@ router.post(
         .in(email)
         .exec();
       if (!selectedUser) {
-        return response.status(400).json({ errors: [{ msg: "Invalid username!" }] });
+        return response
+          .status(400)
+          .json({ errors: [{ msg: "Invalid username!" }] });
       }
 
       let isCorrectPassword = await bcrypt.compare(
@@ -59,7 +58,9 @@ router.post(
       );
 
       if (!isCorrectPassword) {
-        return response.status(400).json({ errors: [{ msg: "Invalid password!" }] });
+        return response
+          .status(400)
+          .json({ errors: [{ msg: "Invalid password!" }] });
       }
 
       const payload = { userid: selectedUser.id };
@@ -73,7 +74,7 @@ router.post(
         }
       );
     } catch (err) {
-        response.status(500).send("Server Error!");
+      response.status(500).send("Server Error!");
     }
   }
 );

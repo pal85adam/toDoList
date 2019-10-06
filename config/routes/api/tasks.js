@@ -30,7 +30,7 @@ router.post(
         date: date
       });
       await newTasks.save();
-      response.send("Task created");
+      response.json(newTasks);
     } catch (err) {
       console.log(err.message);
       response.status(500).send("Server Error");
@@ -45,16 +45,20 @@ router.get("/:id", auth, async (request, response) => {
       user: request.userid,
       _id: request.params.id
     });
-    console.log(selectedTask, request.userid, request.params);
+    // console.log(selectedTask, request.userid, request.params);
     if (!selectedTask) {
-      return response.status(404).json({ msg: "Task is not foud!" });
+      return response
+        .status(404)
+        .json({ errors: [{ msg: "Task is not foud!" }] });
     }
 
     return response.json(selectedTask);
   } catch (err) {
     console.log(err.message);
     if (err.kind === "ObjectId")
-      return response.status(404).json({ msg: "Task is not foud!" });
+      return response
+        .status(404)
+        .json({ errors: [{ msg: "Task is not foud!" }] });
     return response.status(500).send("Server error!");
   }
 });
@@ -97,8 +101,8 @@ router.get("/", auth, async (request, response) => {
     }
 
     const selectedTasks = await Tasks.find(queryTasks);
-    if (selectedTasks.length == 0)
-      return response.json({ msg: "There are no tasks!" });
+    // if (selectedTasks.length == 0)
+    //   return response.json({ msg: "There are no tasks!" });
     return response.json(selectedTasks);
   } catch (err) {
     console.log(err.message);
@@ -131,13 +135,15 @@ router.put(
       });
 
       if (!selectedTask) {
-        return response.status(404).json({ msg: "Task is not foud!" });
+        return response
+          .status(404)
+          .json({ errors: [{ msg: "Task is not foud!" }] });
       }
       selectedTask.title = title;
       selectedTask.text = text;
       selectedTask.date = date;
       await selectedTask.save();
-      return response.json({ msg: "Task was updated" });
+      return response.json({ errors: [{ msg: "Task was updated" }] });
     } catch (err) {
       console.log(err.message);
       response.status(500).send("Server error!");
@@ -154,11 +160,13 @@ router.delete("/:id", auth, async (request, response) => {
     });
 
     if (!selectedTask) {
-      return response.status(404).json({ msg: "Task is not foud!" });
+      return response
+        .status(404)
+        .json({ errors: [{ msg: "Task is not foud!" }] });
     }
 
     await selectedTask.remove();
-    return json({ msg: "Task was removed!" });
+    return response.json({ msg: "Task was removed!" });
   } catch (err) {
     console.log(err.message);
     response.status(500).send("Server error!");

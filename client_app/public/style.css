@@ -579,3 +579,27 @@
   .float-right{
     float: right;
   }
+
+  .float-left{
+    float: left;
+  }
+
+.table{
+  margin-top: 10px;
+}
+
+  .table th{
+    width: 100%;
+    background: #17A2B8;
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #d3d6e9;
+  }
+
+  .react-calendar{
+    display:inline-block;
+    width: unset !important;
+  }
+
+
