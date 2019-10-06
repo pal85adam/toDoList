@@ -7,7 +7,8 @@
     "start": "node server",
     "server": "nodemon server.js",
     "client": "npm start --prefix client_app",
-    "altogether": "concurrently \"npm run server \" \"npm run client \""
+    "altogether": "concurrently \"npm run server \" \"npm run client \"",
+    "heroku-postbuild":"NBM_CONFIG_PRODUCTION=false npm install --prefix client_app && npm run build --prefix client_app"
   },
   "author": "Mohammed Nijim",
   "license": "MIT",

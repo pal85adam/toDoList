@@ -70,7 +70,6 @@ const TasksComponent = ({
                     <button
                       className="btn btn-danger"
                       onClick={e => {
-                        e.preventDefault();
                         deleteOneTask(task._id);
                         resetDateAndTasks();
                       }}
