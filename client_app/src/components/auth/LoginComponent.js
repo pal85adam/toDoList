@@ -13,12 +13,14 @@ const LoginComponent = ({ loginUser, isAuthed }) => {
   const { email, password } = loginFormData;
   // console.log(loginFormData);
   const formChangeHandler = e => {
+    // console.log("formChangeHandler");
     setLoginFormData({
       ...loginFormData,
       [e.target.name]: e.target.value
     });
   };
   const formSubmitHandler = async e => {
+    // console.log("formSubmitHandler");
     e.preventDefault();
     loginUser(email, password);
     //setAlert("Form submitted", "success");

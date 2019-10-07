@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Link ,Redirect} from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { doLogout } from "../../actions/loginActions";
 import PropTypes from "prop-types";
@@ -20,7 +20,14 @@ const navComponent = ({ isAuthed, doLogout }) => {
               <Link to="/tasks">Your tasks</Link>
             </li>
             <li>
-              <a href="#" title="Logout" onClick={e => doLogout()}>
+              <a
+                href="#"
+                title="Logout"
+                onClick={e => {
+                  // console.log("doLogout");
+                  doLogout();
+                }}
+              >
                 <i className="fas fa-sign-out-alt"></i>
                 <span className="hide-sm">Logout</span>
               </a>

@@ -17,7 +17,7 @@ router.get("/me", auth, async (request, response) => {
     }
     response.json({ profile });
   } catch (err) {
-    console.log("What is wrong,, " + err);
+    // console.log("What is wrong,, " + err);
     response.status(500).send("Server Error!");
   }
 });
@@ -53,7 +53,7 @@ router.post(
         .where("user")
         .in(request.userid)
         .exec();
-      console.log(selectedProfile);
+      // console.log(selectedProfile);
       if (selectedProfile) {
         await Profile.findOneAndUpdate(
           { user: request.userid },
@@ -67,7 +67,7 @@ router.post(
         return response.send("Created!");
       }
     } catch (err) {
-      console.log("Whats wrong,,,  " + err.message);
+      // console.log("Whats wrong,,,  " + err.message);
       response.status(500).send("Server error!");
     }
   }
@@ -81,7 +81,7 @@ router.delete("/", [auth], async (request, response) => {
     User.findOneAndDelete({ _id: request.userid });
     return response.send("User deleted!");
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     response.status(500).send("Server Error!");
   }
 });

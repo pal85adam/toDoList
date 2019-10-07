@@ -29,6 +29,7 @@ const TasksComponent = ({
     const month = taskCompState.date.getMonth() + 1;
     const day = taskCompState.date.getDate();
     getTodayUserTasks(year, month, day);
+    // console.log("effect");
   }, [taskCompState.date]);
 
   let taskMinutes = [];

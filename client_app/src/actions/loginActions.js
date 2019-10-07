@@ -9,11 +9,13 @@ export const loadUser = () => async dispatch => {
     // console.log("here is loadUser", localStorage.tdtoken);
   }
   try {
-    const response = await axios.get("/api/auth");
-    dispatch({
-      type: USER_LOADED,
-      payload: response.data
-    });
+    if (localStorage.tdtoken) {
+      const response = await axios.get("/api/auth");
+      dispatch({
+        type: USER_LOADED,
+        payload: response.data
+      });
+    }
   } catch (error) {
     dispatch({
       type: LOGIN_FAIL

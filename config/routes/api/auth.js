@@ -7,7 +7,7 @@ const config = require("config");
 const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
 
-//@route GET api/auths
+//@route GET api/auth
 router.get("/", auth, async (request, response) => {
   try {
     const selectedUser = await User.findById(request.userid).select(
@@ -21,7 +21,7 @@ router.get("/", auth, async (request, response) => {
   }
 });
 
-//@route POST api/users
+//@route POST api/auth
 router.post(
   "/",
   [

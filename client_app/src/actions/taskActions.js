@@ -83,7 +83,7 @@ export const deleteOneTask = id => async dispatch => {
         dispatch(setAlert(error.msg, "danger"));
       });
     }
-    console.log(err.message);
+    // console.log(err.message);
     dispatch(setAlert("Sorry, Something went wrong!", "danger"));
   }
 };

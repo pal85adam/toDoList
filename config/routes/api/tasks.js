@@ -32,7 +32,7 @@ router.post(
       await newTasks.save();
       response.json(newTasks);
     } catch (err) {
-      console.log(err.message);
+      // console.log(err.message);
       response.status(500).send("Server Error");
     }
   }
@@ -54,7 +54,7 @@ router.get("/:id", auth, async (request, response) => {
 
     return response.json(selectedTask);
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
     if (err.kind === "ObjectId")
       return response
         .status(404)
@@ -105,7 +105,7 @@ router.get("/", auth, async (request, response) => {
     //   return response.json({ msg: "There are no tasks!" });
     return response.json(selectedTasks);
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
     response.status(500).send("Server error!");
   }
 });
@@ -145,7 +145,7 @@ router.put(
       await selectedTask.save();
       return response.json({ errors: [{ msg: "Task was updated" }] });
     } catch (err) {
-      console.log(err.message);
+      // console.log(err.message);
       response.status(500).send("Server error!");
     }
   }
@@ -168,7 +168,7 @@ router.delete("/:id", auth, async (request, response) => {
     await selectedTask.remove();
     return response.json({ msg: "Task was removed!" });
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
     response.status(500).send("Server error!");
   }
 });
