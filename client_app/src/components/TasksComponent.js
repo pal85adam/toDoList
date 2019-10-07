@@ -19,24 +19,34 @@ const TasksComponent = ({
 }) => {
   const [taskCompState, setTaskCompState] = useState({
     date: new Date(),
+    taskHours: 0,
+    taskMinutes: 0,
     title: "",
     text: ""
   });
-  console.log(taskCompState.date);
   useEffect(() => {
     const year = taskCompState.date.getFullYear();
     const month = taskCompState.date.getMonth() + 1;
     const day = taskCompState.date.getDate();
     getTodayUserTasks(year, month, day);
-  }, []);
+  }, [taskCompState.date]);
 
-  const resetDateAndTasks = (date = taskCompState.date) => {
-    setTaskCompState({ ...taskCompState, date: date });
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    getTodayUserTasks(year, month, day);
-  };
+  let taskMinutes = [];
+  for (let i = 0; i <= 60; i++) {
+    taskMinutes.push(
+      <option key={i} value={i}>
+        {i}
+      </option>
+    );
+  }
+  let taskHours = [];
+  for (let i = 0; i <= 24; i++) {
+    taskHours.push(
+      <option key={i} value={i}>
+        {i}
+      </option>
+    );
+  }
 
   return (
     <div>
@@ -47,7 +57,7 @@ const TasksComponent = ({
         {/* Calender table */}
         <Calender
           onChange={date => {
-            resetDateAndTasks(date);
+            setTaskCompState({ ...taskCompState, date: date });
           }}
         />
         {/** Tasks table */}
@@ -71,7 +81,6 @@ const TasksComponent = ({
                       className="btn btn-danger"
                       onClick={e => {
                         deleteOneTask(task._id);
-                        resetDateAndTasks();
                       }}
                     >
                       Delete
@@ -93,14 +102,55 @@ const TasksComponent = ({
             className="form"
             onSubmit={e => {
               e.preventDefault();
+              let dateToSubmit = new Date(
+                Date.UTC(
+                  taskCompState.date.getFullYear(),
+                  taskCompState.date.getMonth(),
+                  taskCompState.date.getDate(),
+                  taskCompState.taskHours,
+                  taskCompState.taskMinutes,
+                  0
+                )
+              );
               updateOrAddTask(
                 taskCompState.title,
                 taskCompState.text,
-                taskCompState.date
+                dateToSubmit
               );
-              resetDateAndTasks();
             }}
           >
+            <div className="hour-minute form-group">
+              <div>
+                <span>Hour</span>
+                <select
+                  name="task_hours"
+                  value={taskCompState.taskHours}
+                  onChange={e =>
+                    setTaskCompState({
+                      ...taskCompState,
+                      taskHours: e.target.value
+                    })
+                  }
+                >
+                  {taskHours}
+                </select>
+              </div>
+              <div>
+                <span>Minute</span>
+                <select
+                  name="task_minutes"
+                  value={taskCompState.taskMinutes}
+                  onChange={e =>
+                    setTaskCompState({
+                      ...taskCompState,
+                      taskMinutes: e.target.value
+                    })
+                  }
+                >
+                  {taskMinutes}
+                </select>
+              </div>
+            </div>
             <div className="form-group">
               <input
                 type="text"

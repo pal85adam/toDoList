@@ -11,7 +11,7 @@ const LoginComponent = ({ loginUser, isAuthed }) => {
   });
 
   const { email, password } = loginFormData;
-  console.log(loginFormData);
+  // console.log(loginFormData);
   const formChangeHandler = e => {
     setLoginFormData({
       ...loginFormData,
@@ -26,7 +26,7 @@ const LoginComponent = ({ loginUser, isAuthed }) => {
   };
 
   if (isAuthed) {
-    return <Redirect to="/" />;
+    return <Redirect to="/tasks" />;
   }
 
   return (

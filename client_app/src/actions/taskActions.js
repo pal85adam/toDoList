@@ -13,10 +13,10 @@ export const getTodayUserTasks = (year, month, day) => async dispatch => {
     const response = await axios.get(
       `/api/tasks/?year=${year}&month=${month}&day=${day}`
     );
-    console.log(
-      `/api/tasks/?year=${year}&month=${month}&day=${day}`,
-      response.data
-    );
+    // console.log(
+    //   `/api/tasks/?year=${year}&month=${month}&day=${day}`,
+    //   response.data
+    // );
     dispatch({
       type: TASKS_LOADED,
       payload: response.data
@@ -74,7 +74,7 @@ export const updateOrAddTask = (
 export const deleteOneTask = id => async dispatch => {
   try {
     const response = await axios.delete(`api/tasks/${id}`);
-    dispatch({ type: ONETASK_DELETED });
+    dispatch({ type: ONETASK_DELETED, payload: id });
 
     dispatch(setAlert(response.data.msg, "success"));
   } catch (err) {

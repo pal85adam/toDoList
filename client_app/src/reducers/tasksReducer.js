@@ -6,7 +6,7 @@ import {
   TASKS_LOADED
 } from "../actions/types";
 const initialState = {
-  dayTasks: null,
+  dayTasks: [],
   taskUpdate: null
 };
 
@@ -24,9 +24,17 @@ export default (state = initialState, action) => {
         taskUpdate: payload
       };
     case ONETASK_ADDED:
+      return {
+        ...state,
+        dayTasks: [...state.dayTasks, payload]
+      };
     case ONETASK_UPDATED:
-    case ONETASK_DELETED:
       return { ...state };
+    case ONETASK_DELETED:
+      return {
+        ...state,
+        dayTasks: state.dayTasks.filter(task => task._id !== payload)
+      };
     default:
       return state;
   }

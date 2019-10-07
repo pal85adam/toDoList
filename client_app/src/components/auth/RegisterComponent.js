@@ -14,7 +14,7 @@ const RegisterComponent = ({ isAuthed, setAlert, registerUser }) => {
   });
 
   const { name, email, password, password2 } = registerFormData;
-  console.log(registerFormData);
+  // console.log(registerFormData);
   const formChangeHandler = e => {
     setRegisterFormData({
       ...registerFormData,
@@ -31,7 +31,7 @@ const RegisterComponent = ({ isAuthed, setAlert, registerUser }) => {
   };
 
   if (isAuthed) {
-    return <Redirect to="/" />;
+    return <Redirect to="/tasks" />;
   }
 
   return (

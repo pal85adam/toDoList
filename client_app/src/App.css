@@ -50,3 +50,13 @@ button.react-calendar__tile.react-calendar__month-view__days__day--neighboringMo
     color: rgb(214, 214, 233);
     font-weight: bold;
   }
+
+  .hour-minute{
+    width: 155px;
+  }
+
+  .hour-minute div{
+    display: inline-block;
+    width: 65px;
+    margin-right: 10px;
+  }
