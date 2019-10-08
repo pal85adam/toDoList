@@ -13,8 +13,6 @@ import store from "./store";
 import AlertsComponent from "./components/layout/AlertsComponent";
 import { loadUser } from "./actions/loginActions";
 import setAxiosConfigs from "./utils/setAxiosConfig";
-import axios from "axios";
-axios.defaults.baseURL = "http://localhost:5000";
 
 if (localStorage.tdtoken) {
   setAxiosConfigs(localStorage.tdtoken);
